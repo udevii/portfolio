@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Urmi Devi Design Engineering</title>
+<meta name="description" content="Urmi Devi, design engineer in New York. Projects: Cue, a streaming prototype for web, mobile and TV, and Design Audit, a Figma plugin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Neutral background, amber accent borrowed from Cue's focus ring. */
+:root {
+  --paper: #f2f3f5;
+  --card: #ffffff;
+  --ink: #12141a;
+  --muted: #5a6170;
+  --line: #d9dce3;
+  --accent: #e39a1f;
+  --accent-text: #8a4e00;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e1016; --card: #161922; --ink: #eef0f5; --muted: #9aa2b3; --line: #262b38; --accent: #ffb547; --accent-text: #ffc56e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0e1016; --card: #161922; --ink: #eef0f5; --muted: #9aa2b3; --line: #262b38; --accent: #ffb547; --accent-text: #ffc56e;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--font-body); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--accent-text); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+p { margin: 0; }
+code, .mono { font-family: var(--font-mono); font-size: 0.86em; }
+
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+.prose { max-width: 66ch; display: grid; gap: 1em; }
+
+/* ---------- Header ---------- */
+.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 0; flex-wrap: wrap; }
+.brand { font-family: var(--font-display); font-weight: 800; font-size: 20px; text-decoration: none; letter-spacing: -0.03em; }
+.top nav { display: flex; gap: 22px; font-weight: 600; font-size: 15px; }
+.top nav a { text-decoration: none; color: var(--muted); }
+.top nav a:hover { color: var(--ink); }
+
+/* ---------- Hero: the focus ring hops between the two verbs ---------- */
+.hero { padding: 64px 0 56px; display: grid; gap: 28px; }
+.hero h1 { font-size: clamp(44px, 7.4vw, 104px); font-weight: 800; line-height: 1.02; letter-spacing: -0.045em; max-width: 14ch; }
+.verb { position: relative; display: inline-block; padding: 0 0.12em; }
+.verb::after {
+  content: ""; position: absolute; inset: 0.06em -0.04em 0.02em; border: 0.07em solid var(--accent); border-radius: 0.18em;
+  opacity: 0; transform: scale(0.96); transition: opacity 0.25s, transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.verb.is-focused::after { opacity: 1; transform: scale(1); }
+.hero__lede { font-size: 20px; color: var(--muted); max-width: 52ch; }
+.hero__lede strong { color: var(--ink); font-weight: 600; }
+.hero__meta { display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: 14px; color: var(--muted); }
+.hero__meta span::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 8px; vertical-align: 1px; }
+
+/* ---------- Work index ---------- */
+.index { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding-bottom: 40px; }
+.tile { display: grid; gap: 14px; text-decoration: none; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 14px 22px; transition: transform 0.2s, box-shadow 0.2s; }
+.tile:hover { color: inherit; transform: translateY(-3px); box-shadow: 0 18px 40px rgb(0 0 0 / 0.08); }
+.tile__img { border-radius: 10px; overflow: hidden; aspect-ratio: 16 / 10; background: #0c0e14; }
+.tile__img img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.tile__img--plugin img { object-fit: cover; object-position: top center; }
+.tile__body { padding: 0 8px; display: grid; gap: 6px; }
+.tile h2 { font-size: 26px; }
+.tile p { color: var(--muted); font-size: 15.5px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { font: 600 12px var(--font-mono); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; }
+
+/* ---------- Case study ---------- */
+.case { padding: 72px 0 24px; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; }
+.case > *, .section > *, .split > * { min-width: 0; }
+.case__head { display: grid; gap: 18px; }
+.eyebrow { font: 600 13px var(--font-mono); color: var(--accent-text); letter-spacing: 0.04em; }
+.case__title { font-size: clamp(40px, 5.4vw, 72px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.case__deck { font-size: 21px; max-width: 46ch; color: var(--muted); }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card); }
+.facts div { padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
+.facts div + div { border-left: 1px solid var(--line); }
+.facts dt { font: 600 11.5px var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.facts dd { margin: 0; font-size: 15px; }
+.links { display: flex; gap: 12px; flex-wrap: wrap; }
+.button { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 10px; font-weight: 700; text-decoration: none; border: 2px solid var(--ink); }
+.button--solid { background: var(--ink); color: var(--paper); }
+.button--solid:hover { color: var(--paper); background: color-mix(in srgb, var(--ink) 85%, var(--accent)); }
+
+figure { margin: 0; display: grid; gap: 10px; }
+figure img { border-radius: 14px; border: 1px solid var(--line); }
+figcaption { font-size: 14px; color: var(--muted); max-width: 70ch; }
+.figure--phone { justify-items: start; }
+.figure--phone img { width: min(320px, 100%); border-radius: 36px; }
+
+.section { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; }
+.section > h3 { font-size: 15px; font-family: var(--font-mono); font-weight: 600; color: var(--muted); padding-top: 6px; letter-spacing: 0; }
+.section h4 { font-family: var(--font-display); font-size: 22px; margin: 0; letter-spacing: -0.015em; }
+
+.decisions { display: grid; gap: 40px; counter-reset: d; }
+.decision { display: grid; gap: 12px; }
+.decision__head { display: flex; gap: 14px; align-items: baseline; }
+.decision__head::before { counter-increment: d; content: counter(d, decimal-leading-zero); font: 600 14px var(--font-mono); color: var(--accent-text); }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+
+.arch { display: grid; gap: 10px; font-size: 14.5px; }
+.arch__row { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 10px; }
+.arch__box { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 10px 12px; display: grid; gap: 2px; }
+.arch__box b { font-family: var(--font-display); font-size: 15.5px; }
+.arch__box span { color: var(--muted); font-size: 13.5px; }
+.arch__box--key { border: 2px solid var(--accent); }
+.arch__arrow { text-align: center; color: var(--muted); font: 13px var(--font-mono); }
+
+.rules { width: 100%; border-collapse: collapse; font-size: 15px; }
+.rules th, .rules td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.rules th { font: 600 12px var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.rules td:first-child { font-weight: 600; white-space: nowrap; }
+.sev { font: 600 12px var(--font-mono); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.sev--error { background: color-mix(in srgb, #e5484d 18%, transparent); color: #c4252b; }
+.sev--warning { background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--accent-text); }
+.sev--info { background: color-mix(in srgb, var(--muted) 16%, transparent); color: var(--muted); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sev--error { color: #ff8a8e; } }
+:root[data-theme="dark"] .sev--error { color: #ff8a8e; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+
+ul.list { margin: 0; padding-left: 1.1em; display: grid; gap: 0.5em; }
+ul.list li::marker { color: var(--accent); }
+.callout { border: 1.5px dashed var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 8px; background: var(--card); }
+.callout b { font-family: var(--font-display); }
+
+/* ---------- About ---------- */
+.about { padding: 72px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; }
+.about h2 { font-size: 40px; font-weight: 800; letter-spacing: -0.035em; margin-bottom: 18px; }
+.timeline { display: grid; gap: 18px; }
+.timeline div { display: grid; gap: 2px; padding-left: 16px; border-left: 2px solid var(--line); }
+.timeline b { font-weight: 700; }
+.timeline span { color: var(--muted); font-size: 15px; }
+footer { border-top: 1px solid var(--line); padding: 32px 0 56px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--muted); font-size: 15px; }
+footer a { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 860px) {
+  .index, .about, .split { grid-template-columns: 1fr; }
+  .section { grid-template-columns: 1fr; gap: 10px; }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .facts div:nth-child(3) { border-left: 0; }
+  .facts div:nth-child(n + 3) { border-top: 1px solid var(--line); }
+  .arch__row { grid-template-columns: 1fr; }
+}
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .hero { padding-top: 32px; }
+  .facts { grid-template-columns: 1fr; }
+  .facts div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .verb::after, .tile { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#top" id="top">Urmi Devi</a>
+    <nav aria-label="Sections">
+      <a href="#cue">Cue</a>
+      <a href="#design-audit">Design Audit</a>
+    </nav>
+  </header>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <h1 id="hero-title"><span class="verb is-focused" data-verb="0">Cue</span> and <span class="verb" data-verb="1">Design Audit</span></h1>
+    <p class="hero__lede">A streaming app prototype that works on web, phone and TV, and a Figma plugin that catches design issues before handoff.</p>
+  </section>
+
+  <section class="index" aria-label="Selected work">
+    <a class="tile" href="#cue">
+      <div class="tile__img"><img src="images/web-home.webp" alt="Cue home screen with a featured film and a Continue watching row"></div>
+      <div class="tile__body">
+        <h2>Cue</h2>
+        <p>A streaming app prototype that works on web, phone and TV. You can also just tell it what you're in the mood for and it finds something.</p>
+        <div class="tags"><span>React</span><span>TypeScript</span><span>Next.js</span><span>Generative AI</span></div>
+      </div>
+    </a>
+    <a class="tile" href="#design-audit">
+      <div class="tile__img tile__img--plugin"><img src="images/plugin-dark.webp" alt="Design Audit plugin panel listing a contrast error and raw-color warnings"></div>
+      <div class="tile__body">
+        <h2>Design Audit</h2>
+        <p>A Figma plugin that catches the small things that always come up in design reviews, like low contrast, random hex codes and spacing that's off by 2px.</p>
+        <div class="tags"><span>Figma Plugin API</span><span>TypeScript</span><span>Generative AI</span></div>
+      </div>
+    </a>
+  </section>
+
+  <!-- ======================= CUE ======================= -->
+  <article class="case" id="cue" aria-labelledby="cue-title">
+    <header class="case__head">
+      <p class="eyebrow">Case study 01 · Streaming prototype</p>
+      <h2 class="case__title" id="cue-title">Cue</h2>
+      <p class="case__deck">I wanted to see if a streaming home screen could help people pick something to watch faster, and still feel right whether you're using a mouse, your phone or a TV remote.</p>
+      <dl class="facts">
+        <div><dt>Role</dt><dd>Interaction design and front-end</dd></div>
+        <div><dt>Stack</dt><dd>React 19, TypeScript, Next.js, Generative AI</dd></div>
+        <div><dt>Platforms</dt><dd>Web, mobile, 10-foot TV</dd></div>
+        <div><dt>Year</dt><dd>2026</dd></div>
+      </dl>
+      <div class="links">
+        <a class="button button--solid" href="https://cue-six-gules.vercel.app">Open the live prototype</a>
+        <a class="button" href="https://github.com/udevii/cue">View the code on GitHub</a>
+      </div>
+    </header>
+
+    <figure>
+      <img src="images/tv.webp" alt="Cue in TV layout: The Lantern Keepers card is focused with a white ring, an on-screen remote sits bottom right">
+      <figcaption>The TV layout. With a remote, focus is pretty much the only thing you have to go on, so I made it really obvious: a thick white ring and the card gets a little bigger. The remote in the corner is just there so people can test it with a mouse.</figcaption>
+    </figure>
+
+    <section class="section">
+      <h3>The problem</h3>
+      <div class="prose">
+        <p>A lot of the time people open a streaming app already wanting to watch something, they just don't know what yet. The home screen is rows and rows of posters, which is fine with a mouse, slower on a phone, and really slow with a remote, where every move is a button press and typing a search takes forever.</p>
+        <p>I wanted to build something people could actually click through instead of static screens, to test two things. First, can the same components work right with a mouse, a thumb and a remote. Second, can you just ask for something in plain words and have the app be upfront about how it understood you.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Interaction decisions</h3>
+      <div class="decisions">
+        <div class="decision">
+          <div class="decision__head"><h4>Rows remember where you left off</h4></div>
+          <div class="prose"><p>If you go down to another row and then come back up, you should land on the same card you were on before, not whatever card happens to be closest. TV apps do this and you only really notice when it's missing. Cue keeps track of the last card you were on in each row and takes you back to it.</p></div>
+        </div>
+        <div class="decision">
+          <div class="decision__head"><h4>Showing what the AI understood</h4></div>
+          <div class="split">
+            <div class="prose">
+              <p>A request like “like Fault Lines but less dark” can mean a lot of things, so Cue shows how it read it as little chips, like “Not dark” and “Like Fault Lines.” If one is wrong you remove it and it searches again. On a TV that's a big deal, because removing a chip is one click and retyping the whole thing is a lot of clicks.</p>
+              <p>Every result also says why it was picked, so it doesn't feel random.</p>
+            </div>
+            <figure><img src="images/web-ask.webp" alt="Ask Cue results headed Not dark, Like Fault Lines, with removable Understood as chips and a reason under each title"></figure>
+          </div>
+        </div>
+        <div class="decision">
+          <div class="decision__head"><h4>It can only recommend real titles</h4></div>
+          <div class="prose"><p>The AI model only gets Cue's catalog and has to answer in a set format. Before anything shows up, every title it sends back gets checked against the catalog, so it can't make up a show. If the AI doesn't answer, or the answer comes back broken, Cue switches to a simpler keyword matcher and tells you. That also means the feature still works with no API key at all.</p></div>
+        </div>
+        <div class="decision">
+          <div class="decision__head"><h4>One broken row doesn't break the page</h4></div>
+          <div class="split">
+            <div class="prose"><p>Every row loads on its own. If the Top 10 fails, only that row shows an error with a Try again button and the rest of the app keeps working. While things load you see gray placeholder cards that are the same shape as the real ones, so nothing jumps around when the data comes in.</p></div>
+            <figure><img src="images/error.webp" alt="Top 10 row showing an error message with a Try again button while other rows load normally"></figure>
+          </div>
+        </div>
+        <div class="decision">
+          <div class="decision__head"><h4>The same components on every screen</h4></div>
+          <div class="split">
+            <div class="prose">
+              <p>I used CSS container queries, so the components react to the space they're in and not the whole browser window. That means the phone preview is the actual responsive layout running in a 390px frame, not a separate mockup. Under 720px the top menu turns into a tab bar at the bottom, the banner gets shorter and the rows become swipeable.</p>
+              <p>It also follows the reduced motion setting, and the featured banner stops rotating when you're hovering on it or have it selected.</p>
+            </div>
+            <figure class="figure--phone"><img src="images/mobile.webp" alt="Cue in the mobile frame with a bottom tab bar"></figure>
+          </div>
+        </div>
+        <div class="decision">
+          <div class="decision__head"><h4>Controls for whoever runs the test</h4></div>
+          <div class="prose"><p>Since this is a prototype and the point is to test it, there's a panel outside the app for the person running a session. You can switch devices, slow the network down, make a row fail on purpose, or turn off motion. That way you can show someone the error state when you want to, instead of waiting and hoping it happens.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>How it's built</h3>
+      <div class="prose" style="max-width:none">
+        <p style="max-width:66ch">Everything in the UI goes through one TypeScript interface, <code>CueApi</code>. There are two versions of it: one calls the Next.js API routes and one runs right in the browser. So the exact same components run as a full Next.js app and as a single HTML file with no server.</p>
+        <div class="arch" aria-label="Architecture">
+          <div class="arch__row" style="--n:1"><div class="arch__box"><b>React components</b><span>Banner, rows, cards, Ask Cue, details, player, arrow key navigation</span></div></div>
+          <div class="arch__arrow" aria-hidden="true">↓</div>
+          <div class="arch__row" style="--n:1"><div class="arch__box arch__box--key"><b>CueApi</b><span>getCatalog · getTrending · discover · aiMode</span></div></div>
+          <div class="arch__arrow" aria-hidden="true">↓</div>
+          <div class="arch__row" style="--n:2">
+            <div class="arch__box"><b>Next.js version</b><span>API routes at /api/catalog, /api/trending and /api/discover. The API key stays on the server.</span></div>
+            <div class="arch__box"><b>Browser version</b><span>Same data and matcher with fake loading times, for the single-file demo.</span></div>
+          </div>
+        </div>
+        <ul class="list" style="max-width:66ch">
+          <li>The arrow key navigation is its own file (<code>src/lib/spatialNav.ts</code>). It finds the next card in the direction you pressed and remembers your spot in each row.</li>
+          <li>There are no image files. The poster art is SVG made from each title's colors and a pattern, so every title still looks different.</li>
+          <li>All the shows, people and channels are made up.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>What changed while building</h3>
+      <div class="prose">
+        <ul class="list">
+          <li><b>The keyword matcher was too loose.</b> Typing “like Fault Lines but less dark” gave back a sitcom, just because the sitcom wasn't dark. I made it stricter, so now a result has to actually share a genre or mood.</li>
+          <li><b>The Top 10 numbers were getting cut off</b> at the top of the row, so the row got more room.</li>
+          <li><b>Arrow keys were getting in the way of scrolling on web.</b> Now they only move focus once you're already using the keyboard to get around the app. Otherwise they scroll the page like normal.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Testing</h3>
+      <div class="callout">
+        <b>Next up: testing with five people</b>
+        <p>I'm going to have them find something under 30 minutes, pick a show back up where they left off, and use Ask Cue on the TV layout. I'll time how long it takes them to start watching, write down where they get stuck, and add what I find and what I change here.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>What I'd do next</h3>
+      <div class="prose">
+        <ul class="list">
+          <li>Voice search for TV, since most remotes have a mic button and typing with arrow keys is the slowest part.</li>
+          <li>Build the TV layout in LightningJS to see how it runs on cheaper TVs and streaming sticks.</li>
+          <li>Add episode data, so it could give you a “catch me up” summary based on what you actually watched.</li>
+        </ul>
+      </div>
+    </section>
+  </article>
+
+  <!-- ======================= DESIGN AUDIT ======================= -->
+  <article class="case" id="design-audit" aria-labelledby="da-title">
+    <header class="case__head">
+      <p class="eyebrow">Case study 02 · Figma plugin</p>
+      <h2 class="case__title" id="da-title">Design Audit</h2>
+      <p class="case__deck">The same small things come up in every design review. I wanted a plugin that finds them first, but still lets the designer decide what to fix.</p>
+      <dl class="facts">
+        <div><dt>Role</dt><dd>Design and development</dd></div>
+        <div><dt>Stack</dt><dd>TypeScript, Figma Plugin API, Generative AI</dd></div>
+        <div><dt>Checks</dt><dd>9 rules, 5 one-click fixes</dd></div>
+        <div><dt>Tests</dt><dd>9 unit tests on the rules</dd></div>
+      </dl>
+      <div class="links">
+        <a class="button button--solid" href="https://github.com/udevii/design-audit">View the code on GitHub</a>
+      </div>
+    </header>
+
+    <div class="split">
+      <figure><img src="images/plugin-dark.webp" alt="Design Audit panel: 1 error, 6 warnings, 4 notes. A contrast error shows 2.55 to 1 with an explanation of WCAG 1.4.3." style="width:min(400px, 100%)"></figure>
+      <div class="prose">
+        <p>You select some frames, hit Scan, and it lists everything it found with the worst stuff at the top. For each issue you can jump to the layer, see why it matters, and if the fix is simple, fix it in one click.</p>
+        <p>The suggestions come from your own file. If a layer uses a raw color like <code>#202533</code>, it finds the closest color style you already have, using ΔE, which measures how different two colors actually look. For text without a style, it finds the closest text style by size and weight.</p>
+        <p>If you add an API key, you can click Explain with AI on an issue to get an explanation and a fix that's specific to that layer and your styles. It's optional, it only runs when you click it, and it only sends that one issue.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <h3>What it checks</h3>
+      <div class="table-scroll">
+        <table class="rules">
+          <thead><tr><th scope="col">Rule</th><th scope="col">Severity</th><th scope="col">What it catches</th><th scope="col">Fix</th></tr></thead>
+          <tbody>
+            <tr><td>Text contrast</td><td><span class="sev sev--error">Error</span></td><td>Text under WCAG 4.5:1 (3:1 for large text) against the background behind it</td><td>Explain</td></tr>
+            <tr><td>Raw colors</td><td><span class="sev sev--warning">Warning</span></td><td>Fills that aren't a style or variable, and colors that are almost the same</td><td>Use closest style</td></tr>
+            <tr><td>Text styles</td><td><span class="sev sev--warning">Warning</span></td><td>Text with no text style</td><td>Use closest style</td></tr>
+            <tr><td>Spacing grid</td><td><span class="sev sev--warning">Warning</span></td><td>Auto layout gaps or padding off the 4px or 8px grid</td><td>Snap to grid</td></tr>
+            <tr><td>Corner radius</td><td><span class="sev sev--warning">Warning</span></td><td>Radius values that aren't on the scale</td><td>Use nearest value</td></tr>
+            <tr><td>Detached components</td><td><span class="sev sev--warning">Warning</span></td><td>Frames that got detached from their component</td><td>Explain</td></tr>
+            <tr><td>Layer names</td><td><span class="sev sev--info">Note</span></td><td>Default names like “Frame 12”</td><td>Rename from text</td></tr>
+            <tr><td>Tap targets</td><td><span class="sev sev--info">Note</span></td><td>Buttons, chips and tabs smaller than 44px</td><td>Explain</td></tr>
+            <tr><td>Hidden layers</td><td><span class="sev sev--info">Note</span></td><td>Hidden layers left in the file</td><td>Explain</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Decisions</h3>
+      <div class="prose">
+        <ul class="list">
+          <li><b>The designer is in charge.</b> Nothing changes until you click a fix, fixes happen one at a time, and you can undo any of them with ⌘Z.</li>
+          <li><b>The rules are separate from Figma.</b> The plugin turns your selection into plain data and the rules run on that, so they can be tested in Node without opening Figma at all.</li>
+          <li><b>It works without AI.</b> The explanations and style matching always work. The AI is extra help on one issue when you ask for it, and your key stays on your computer.</li>
+          <li><b>Less noise from components.</b> It only checks instances at the top level. If something is wrong inside a component it would show up on every single copy, so it makes more sense to fix it once in the main component.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Limits and next steps</h3>
+      <div class="prose">
+        <ul class="list">
+          <li>Right now it only suggests local styles, not ones from a shared library or color variables. That's next.</li>
+          <li>Contrast only works on solid backgrounds, including shapes sitting behind the text. Text on images or gradients isn't checked yet.</li>
+          <li>Settings like the grid size are saved per computer. They should really be saved in the file, so a whole team uses the same rules.</li>
+        </ul>
+      </div>
+    </section>
+  </article>
+
+</div>
+
+<footer class="wrap" id="contact">
+  <span>Urmi Devi · New York</span>
+  <span><a href="mailto:urmidevi00@gmail.com">urmidevi00@gmail.com</a> · <a href="https://www.linkedin.com/in/urmi-devi">LinkedIn</a> · <a href="https://github.com/udevii">GitHub</a></span>
+</footer>
+
+<script>
+  // move the focus ring back and forth between the two project names
+  (function () {
+    var verbs = document.querySelectorAll(".verb");
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || verbs.length < 2) return;
+    var i = 0;
+    setInterval(function () {
+      verbs[i].classList.remove("is-focused");
+      i = (i + 1) % verbs.length;
+      verbs[i].classList.add("is-focused");
+    }, 2200);
+  })();
+</script>
+</body>
+</html>
